@@ -10,3 +10,6 @@ try{
 	"Error in {0} at line: {1}, offset: {2}.`n{3}" -f $_.InvocationInfo.ScriptName, $_.InvocationInfo.ScriptLineNumber, $_.InvocationInfo.OffsetInLine, $_
 	$error = $true
 }
+
+# print header with all the informations
+"{0} {1}`n{3} - {2}`n" -f $ApplicationName,$Version,$Copyright,$Licence 
