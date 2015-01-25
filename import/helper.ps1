@@ -17,7 +17,7 @@ try{
 # helper functions
 function import {
     param(
-        $Namespace = "system"
+        [String]$Namespace = "system"
     )
 
     $namespacePath = $(Join-Path $script:importFolderPath $($Namespace.Replace(".","\")))
@@ -38,10 +38,10 @@ function import {
 
 function Invoke-Function{
     param(
-        $functionToCall,
-        $objectToPass
+        [String]$FunctionToCall,
+        $ObjectToPass
     )
-    $getFunction = get-command $functionToCall -CommandType Function
+    $getFunction = get-command $FunctionToCall -CommandType Function
     $sb = $getFunction.ScriptBlock
-    Invoke-Command -ScriptBlock $sb -ArgumentList $objectToPass
+    Invoke-Command -ScriptBlock $sb -ArgumentList $ObjectToPass
 }

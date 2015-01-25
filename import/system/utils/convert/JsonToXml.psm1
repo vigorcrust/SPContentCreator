@@ -1,9 +1,12 @@
 Add-Type -Assembly System.ServiceModel.Web
 Add-Type -Assembly System.Runtime.Serialization
 
-function Convert-JsonToXml([string]$json)
+function Convert-JsonToXml
 {
-    $bytes = [byte[]][char[]]$json
+    param(
+        [String]$Json
+    )
+    $bytes = [byte[]][char[]]$Json
     $quotas = [System.Xml.XmlDictionaryReaderQuotas]::Max
     $jsonReader = [System.Runtime.Serialization.Json.JsonReaderWriterFactory]::CreateJsonReader($bytes,$quotas)
     try

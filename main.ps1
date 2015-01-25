@@ -1,5 +1,5 @@
 param(
-	$ConfigFile = "$(split-path -parent $MyInvocation.MyCommand.Definition)\config\structure.json"
+	[String]$ConfigFile = "$(split-path -parent $MyInvocation.MyCommand.Definition)\config\structure.json"
 )
 
 . "$(split-path -parent $MyInvocation.MyCommand.Definition)\import\helper.ps1"
