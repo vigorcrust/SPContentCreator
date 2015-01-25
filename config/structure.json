@@ -3,7 +3,7 @@
         "url" : "http://portal.contoso.com",
         "mode" : "use",
 	    "website" : {
-            "url" : "http://portal.contoso.com/",
+            "url" : "",
 		    "mode" : "create",
 			"type" : "STS#0",
 		    "contenttype" : {
@@ -24,14 +24,22 @@
 					"title" : "Item1",
 					"file" : "datafile.bin"
 				}
-			}
+			},
 	        "website" : {
-                "url" : "http://portal.contoso.com/HR/",
-                "name" : "Dolly"
+                "url" : "/HR",
+                "name" : "Dolly1",
+                "website" : {
+                    "url" : "/Contracts",
+                    "name" : "Dolly2"
+                }
             },          
 	        "website" : {
-                "url" : "http://portal.contoso.com/IT/",
-                "name" : "Dolly2"
+                "url" : "/IT",
+                "name" : "Dolly3",
+                "website" : {
+                    "url" : "/Assets",
+                    "name" : "Dolly4"
+                }
             }
         }
     }
