@@ -3,7 +3,7 @@
         "url" : "http://portal.contoso.com",
         "mode" : "use",
 	    "website" : {
-            "url" : "http://portal.contoso.com/",
+            "url" : "/",
 		    "mode" : "create",
 			"type" : "STS#0",
 		    "contenttype" : {
@@ -26,11 +26,11 @@
 				}
 			}
 	        "website" : {
-                "url" : "http://portal.contoso.com/HR/",
+                "url" : "HR/",
                 "name" : "Dolly"
             },          
 	        "website" : {
-                "url" : "http://portal.contoso.com/IT/",
+                "url" : "IT/",
                 "name" : "Dolly2"
             }
         }
