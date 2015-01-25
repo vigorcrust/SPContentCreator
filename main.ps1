@@ -6,6 +6,7 @@ param(
 if ($script:apperror){exit}
 
 Remove-Module XmlRecursive
+cls
 
 # Import nesessary Modules
 import system.utils.convert
@@ -36,4 +37,31 @@ $incrementalAttributes = "url" # Creates a "i_url" in $ComplexObject.Incremental
 
 # Import Json file and convert to xml
 $configAsXml = Convert-JsonToXml -Json $(Get-Content -Path $ConfigFile -Raw)
-Invoke-XmlRecursive -XmlDocOrElement $configAsXml.FirstChild -FunctionToCall processNode -IncrementalAttributes $incrementalAttributes
+#Invoke-XmlRecursive -XmlDocOrElement $configAsXml.FirstChild -FunctionToCall processNode -IncrementalAttributes $incrementalAttributes
+
+#$configAsXml.OuterXml
+
+#Select-Xml -Xml $configAsXml -XPath "//*/@type" | Select-Object -ExpandProperty Node | ForEach-Object { $_.OwnerElement.RemoveAttributeNode($_) | Out-Null}
+
+$newXml = $configAsXml
+
+
+function displayLevel($NodeList, $level = -1){
+    $level++
+    if($NodeList -and $NodeList.Count -gt 0){
+
+    foreach($node in $NodeList){
+       if($node.NodeType -ne "Text"){
+            if ($node.type -ne "object"){
+                $nodeValue = $node.'#text'
+            }
+            "`t" * $level + "$($node.localname):$nodeValue"
+       }
+       
+       displayLevel -NodeList $node.ChildNodes -level $level
+     }
+     }else{
+        return
+     }
+}
+displayLevel -NodeList $newXml.ChildNodes
