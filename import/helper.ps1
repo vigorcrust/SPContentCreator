@@ -35,3 +35,13 @@ function import {
         Write-Host ("Namespace '{0}' could not be loaded" -f $Namespace) -ForegroundColor Red
     }
 }
+
+function Invoke-Function{
+    param(
+        $functionToCall,
+        $objectToPass
+    )
+    $getFunction = get-command $functionToCall -CommandType Function
+    $sb = $getFunction.ScriptBlock
+    Invoke-Command -ScriptBlock $sb -ArgumentList $objectToPass
+}
