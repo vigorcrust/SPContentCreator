@@ -1,0 +1,38 @@
+{
+    "sitecollection" : {
+        "url" : "http://portal.contoso.com",
+        "mode" : "use",
+	    "website" : {
+            "url" : "http://portal.contoso.com/",
+		    "mode" : "create",
+			"type" : "STS#0",
+		    "contenttype" : {
+                "name" : "CT_testing",			    
+                "desc" : "Content Type without metadata.",
+                "mode" : "use",
+			    "type" : "Document",
+                "fields" : {
+                    "name" : "lalelu",
+                    "type" : "text"
+                }
+		    },
+			"list" : {
+				"name" : "TestLibrary",
+				"type" : "DocumentLibrary",
+				"mode" : "create",
+				"item" : {
+					"title" : "Item1",
+					"file" : "datafile.bin"
+				}
+			}
+	        "website" : {
+                "url" : "http://portal.contoso.com/HR/",
+                "name" : "Dolly"
+            },          
+	        "website" : {
+                "url" : "http://portal.contoso.com/IT/",
+                "name" : "Dolly2"
+            }
+        }
+    }
+}
