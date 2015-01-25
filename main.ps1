@@ -14,14 +14,17 @@ import system.xml
 # Main App starts here
  function processNode{
     param(
-        $ComplexObject   #$complexObject.Key $complexObject.Value $complexObject.Node $complexObject.Parent
+        $ComplexObject  #$complexObject.Key 
+                        #$complexObject.Value 
+                        #$complexObject.Node 
+                        #$complexObject.Parent 
+                        #$ComplexObject.Persistent
     )
 
     $attributes = $ComplexObject.Node.SelectNodes("./*[not(*)]")
 
     if ($attributes.count -ne 0){
         Write-Host "Call Method: $($ComplexObject.Key)" -ForegroundColor Green
-        Write-Host "Parent Url: $($ComplexObject.Parent.url)" -ForegroundColor Yellow
         foreach ($att in $attributes){
             "$($att.LocalName) - $($att.'#text')"
         }
