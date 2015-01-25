@@ -11,8 +11,15 @@ import system.xml
 
 # Main App starts here
 
-function test{"called"}
+function processNode{
+    param(
+        $ComplexObject   #$complexObject.Key $complexObject.Value $complexObject.Node
+    )
+    "$($complexObject.Key) - $($complexObject.Value)"
+}
+
+# $incrementalAttributes = "url"
 
 # Import Json file and convert to xml
 $configAsXml = Convert-JsonToXml -Json $(Get-Content -Path $ConfigFile -Raw)
-Invoke-XmlRecursive -XmlDocOrElement $configAsXml -FunctionToCall test
+Invoke-XmlRecursive -XmlDocOrElement $configAsXml.FirstChild -FunctionToCall processNode
