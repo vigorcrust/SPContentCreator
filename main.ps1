@@ -48,6 +48,7 @@ Select-Xml -Xml $configAsXml -XPath "//*/@type" | Select-Object -ExpandProperty 
             }
         }
         $object | Add-Member Noteproperty WorkingUrl $url
+        $object | Add-Member NoteProperty Detailed $ComplexObject
         
         Invoke-Function -functionToCall $complexObject.Key -objectToPass $object
     }
