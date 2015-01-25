@@ -29,7 +29,7 @@ function import {
 
         foreach ($scriptPath in $files.FullName){
             "import $scriptPath"
-            Import-Module $scriptPath
+            Import-Module $scriptPath -Force
         }
     }else{
         Write-Host ("Namespace '{0}' could not be loaded" -f $Namespace) -ForegroundColor Red

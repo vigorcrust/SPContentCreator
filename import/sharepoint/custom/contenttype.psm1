@@ -1,0 +1,3 @@
+function contenttype{
+    param($complexObject)
+}
