@@ -32,6 +32,7 @@ function Invoke-XmlRecursive{
 
             Invoke-Function -FunctionToCall $FunctionToCall -ObjectToPass $object
         }
+
 		Invoke-XmlRecursive -xmlDoc $node -functionToCall $FunctionToCall -IncrementalAttributes $IncrementalAttributes -PersistentData $PersistentData
 	}
 }
