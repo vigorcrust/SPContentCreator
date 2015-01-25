@@ -23,13 +23,13 @@ function import {
     $namespacePath = $(Join-Path $script:importFolderPath $($Namespace.Replace(".","\")))
     
     if ($(Test-Path $namespacePath)){
-        Write-Host ("Import Libraries from Namespace: {0}" -f $Namespace)
+        Write-Host ("Import Modules from Namespace: {0}" -f $Namespace)
 
-        $files = Get-ChildItem $namespacePath -Recurse -Filter *.ps1
+        $files = Get-ChildItem $namespacePath -Recurse -Filter *.psm1
 
         foreach ($scriptPath in $files.FullName){
             "import $scriptPath"
-            . "$scriptPath"
+            Import-Module $scriptPath
         }
     }else{
         Write-Host ("Namespace '{0}' could not be loaded" -f $Namespace) -ForegroundColor Red
