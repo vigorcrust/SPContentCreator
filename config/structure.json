@@ -13,13 +13,17 @@
 			    "type" : "Document",
                 "fields" : {
                     "name" : "lalelu",
-                    "type" : "text",
+                    "type" : "text"
                 }
 		    },
-			"library" : {
+			"list" : {
 				"name" : "TestLibrary",
 				"type" : "DocumentLibrary",
-				"mode" : "create"
+				"mode" : "create",
+				"item" : {
+					"title" : "Item1",
+					"file" : "datafile.bin"
+				}
 			}
 	        "website" : {
                 "url" : "http://portal.contoso.com/HR/",
