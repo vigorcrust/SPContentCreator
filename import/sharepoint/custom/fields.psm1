@@ -1,0 +1,3 @@
+function fields{
+    param($complexObject)
+}
