@@ -5,12 +5,21 @@ param(
 . "$(split-path -parent $MyInvocation.MyCommand.Definition)\import\helper.ps1"
 if ($script:apperror){exit}
 
-Remove-Module XmlRecursive
+# For development purposes
+Remove-Module XmlRecursive -ErrorAction SilentlyContinue
 cls
 
 # Import nesessary Modules
 import system.utils.convert
 import system.xml
+
+# Variable declaration
+$incrementalAttributes = "url" # Creates a "i_url" in $ComplexObject.Persistent
+
+# Import Json file and convert to xml
+$configAsXml = Convert-JsonToXml -Json $(Get-Content -Path $ConfigFile -Raw)
+# Cleanup type unneeded type attributes - it is not needed but may come in handy
+Select-Xml -Xml $configAsXml -XPath "//*/@type" | Select-Object -ExpandProperty Node | ForEach-Object { $_.OwnerElement.RemoveAttributeNode($_) | Out-Null}
 
 # Main App starts here
  function processNode{
@@ -20,6 +29,7 @@ import system.xml
                         #$complexObject.Node 
                         #$complexObject.Parent 
                         #$ComplexObject.Persistent
+                        #$ComplexObject.Level
     )
 
     $attributes = $ComplexObject.Node.SelectNodes("./*[not(*)]")
@@ -29,39 +39,17 @@ import system.xml
         foreach ($att in $attributes){
             "$($att.LocalName) - $($att.'#text')"
         }
-        Write-Host "$($ComplexObject.Persistent.i_url)" -ForegroundColor Magenta
+        for($i=0; $i -le $ComplexObject.Level; $i++){
+            if ($ComplexObject.Persistent.i_url.count -gt 0){
+                if ($ComplexObject.Persistent.i_url[$i] -ne ""){
+                    $url += $ComplexObject.Persistent.i_url[$i]
+                }
+            }
+        }
+        
+        Write-Host "$url" -ForegroundColor Magenta
     }
 }
 
-$incrementalAttributes = "url" # Creates a "i_url" in $ComplexObject.IncrementalAttributes
-
-# Import Json file and convert to xml
-$configAsXml = Convert-JsonToXml -Json $(Get-Content -Path $ConfigFile -Raw)
-#Invoke-XmlRecursive -XmlDocOrElement $configAsXml.FirstChild -FunctionToCall processNode -IncrementalAttributes $incrementalAttributes
-
-#$configAsXml.OuterXml
-
-#Select-Xml -Xml $configAsXml -XPath "//*/@type" | Select-Object -ExpandProperty Node | ForEach-Object { $_.OwnerElement.RemoveAttributeNode($_) | Out-Null}
-
-$newXml = $configAsXml
-
-
-function displayLevel($NodeList, $level = -1){
-    $level++
-    if($NodeList -and $NodeList.Count -gt 0){
-
-    foreach($node in $NodeList){
-       if($node.NodeType -ne "Text"){
-            if ($node.type -ne "object"){
-                $nodeValue = $node.'#text'
-            }
-            "`t" * $level + "$($node.localname):$nodeValue"
-       }
-       
-       displayLevel -NodeList $node.ChildNodes -level $level
-     }
-     }else{
-        return
-     }
-}
-displayLevel -NodeList $newXml.ChildNodes
+# Invoke the recursive parse function
+Invoke-XmlRecursive -XmlDocOrElement $configAsXml -FunctionToCall processNode -IncrementalAttributes $incrementalAttributes

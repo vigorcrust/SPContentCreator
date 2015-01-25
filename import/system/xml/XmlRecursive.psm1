@@ -3,8 +3,10 @@ function Invoke-XmlRecursive{
         $XmlDocOrElement,
         [String]$FunctionToCall,
         $IncrementalAttributes,
-        $PersistentData = $(New-Object PSObject)
+        $PersistentData = $(New-Object PSObject),
+        $Level = -1
     )
+    $Level++
 	foreach ($node in $XmlDocOrElement.ChildNodes){
         if($node.NodeType -ne "Text"){
             $nodeName = $node.LocalName
@@ -15,10 +17,20 @@ function Invoke-XmlRecursive{
             $object | Add-Member NoteProperty Key $nodeName
             $object | Add-Member NoteProperty Value $nodeValue
             $object | Add-Member NoteProperty Node $node
+            $object | Add-Member NoteProperty Level $Level
 
+            # Create empty array with 100 levels, may need to be increased
+            $ar = ,"" * 100
+            
             if ($IncrementalAttributes -contains $nodeName){
-                Write-Host "Found $nodeName" -ForegroundColor Red
-                $PersistentData | Add-Member Noteproperty "i_$($nodeName)" $($PersistentData."i_$nodeName" + $nodeValue) -Force
+                if(!$PersistentData."i_$nodeName"){
+                    $ar[$Level] = $nodeValue
+                }else{
+                    $ar = $PersistentData."i_$nodeName"
+                    $ar[$Level] = $nodeValue
+                }
+
+                $PersistentData | Add-Member Noteproperty "i_$($nodeName)" $ar -Force
             }
             
             $object | Add-Member NoteProperty Persistent $PersistentData
@@ -33,6 +45,6 @@ function Invoke-XmlRecursive{
             Invoke-Function -FunctionToCall $FunctionToCall -ObjectToPass $object
         }
 
-		Invoke-XmlRecursive -xmlDoc $node -functionToCall $FunctionToCall -IncrementalAttributes $IncrementalAttributes -PersistentData $PersistentData
+		Invoke-XmlRecursive -xmlDoc $node -functionToCall $FunctionToCall -IncrementalAttributes $IncrementalAttributes -PersistentData $PersistentData -Level $Level
 	}
 }
