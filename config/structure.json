@@ -1,0 +1,28 @@
+{
+    "sitecollection" : {
+        "url" : "http://portal.contoso.com",
+        "mode" : "create",
+	    "website" : {
+            "url" : "http://portal.contoso.com/",
+		    "mode" : "create",
+		    "contenttype" : {
+                "name" : "CT_testing",			    
+                "desc" : "Content Type without metadata.",
+                "mode" : "use",
+			    "type" : "Document",
+                "fields" : {
+                    "name" : "lalelu",
+                    "type" : "text",
+                }
+		    },          
+	        "website" : {
+                "url" : "http://portal.contoso.com/HR/",
+                "name" : "Dolly"
+            },          
+	        "website" : {
+                "url" : "http://portal.contoso.com/IT/",
+                "name" : "Dolly2"
+            }
+        }
+    }
+}
