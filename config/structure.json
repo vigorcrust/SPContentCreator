@@ -9,11 +9,13 @@
 		    "contenttype" : {
                 "name" : "CT_testing",			    
                 "desc" : "Content Type without metadata.",
-                "action" : "use",
+                "action" : "create",
 			    "type" : "Document",
                 "fields" : {
-                    "name" : "lalelu",
-                    "type" : "text"
+                    "wildcardfields" : "something*",
+                }
+                "fields" : {
+                    "matchfield" : "exactTitle",
                 }
 		    },
 			"list" : {
