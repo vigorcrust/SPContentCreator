@@ -1,15 +1,15 @@
 {
     "sitecollection" : {
         "url" : "http://portal.contoso.com",
-        "mode" : "use",
+        "action" : "use",
 	    "website" : {
             "url" : "",
-		    "mode" : "create",
+		    "action" : "useOrCreate",
 			"type" : "STS#0",
 		    "contenttype" : {
                 "name" : "CT_testing",			    
                 "desc" : "Content Type without metadata.",
-                "mode" : "use",
+                "action" : "use",
 			    "type" : "Document",
                 "fields" : {
                     "name" : "lalelu",
@@ -19,7 +19,7 @@
 			"list" : {
 				"name" : "TestLibrary",
 				"type" : "DocumentLibrary",
-				"mode" : "create",
+				"action" : "create",
 				"item" : {
 					"title" : "Item1",
 					"file" : "datafile.bin"
