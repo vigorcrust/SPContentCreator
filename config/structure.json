@@ -12,10 +12,12 @@
                 "action" : "create",
 			    "type" : "Document",
                 "fields" : {
-                    "wildcardfields" : "something*",
-                }
+                    "matchfield" : "something*",
+                    "type" : "wildcard"
+                },
                 "fields" : {
                     "matchfield" : "exactTitle",
+                    "type" : "match"
                 }
 		    },
 			"list" : {

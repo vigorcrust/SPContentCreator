@@ -1,6 +1,9 @@
 param(
-	[String]$ConfigFile = "$(split-path -parent $MyInvocation.MyCommand.Definition)\config\structure.json"
+	[String]$ConfigFile = "$(split-path -parent $MyInvocation.MyCommand.Definition)\config\structure.json",
+    [Switch]$WhatIf = $true
 )
+
+if ($WhatIf.IsPresent){$Global:WhatIf = $true}
 
 . "$(split-path -parent $MyInvocation.MyCommand.Definition)\import\helper.ps1"
 if ($script:apperror){exit}
@@ -35,7 +38,9 @@ Select-Xml -Xml $configAsXml -XPath "//*/@type" | Select-Object -ExpandProperty 
     $attributes = $ComplexObject.Node.SelectNodes("./*[not(*)]")
 
     if ($attributes.count -ne 0){
-        Write-Host "Call Method: $($ComplexObject.Key)" -ForegroundColor Green
+        if($Global:WhatIf){
+            Write-Host "Call Method: $($ComplexObject.Key)" -ForegroundColor Green
+        }
         $object = New-Object PSObject
         foreach ($att in $attributes){
             $object | Add-Member Noteproperty $att.LocalName $att.'#text'

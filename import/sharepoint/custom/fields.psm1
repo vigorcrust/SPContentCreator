@@ -1,25 +1,24 @@
 function fields{
     param($complexObject)
 
-    $spWeb = Get-SPWeb $complexObject.WorkingUrl
-    $ct = $spWeb.ContentTypes[$complexObject.Detailed.Parent.name]
-
-    if(!$complexObject.wildcardfields -and $complexObject.wildcardfields -ne ""){
-        $wildCardFields = $spWeb.Fields | where {$_.Title -like $complexObject.wildcardfields}
-        foreach ($field in $wildCardFields) {
-            $link = New-Object Microsoft.SharePoint.SPFieldLink $field
-            $createdCT.FieldLinks.Add($link)    
-        }
-    }
-    if(!$complexObject.matchfield -and $complexObject.matchfield -ne ""){
-        $wildCardFields = $spWeb.Fields | where {$_.Title -eq $complexObject.matchfield}
-        foreach ($field in $matchfield) {
-            $link = New-Object Microsoft.SharePoint.SPFieldLink $field
-            $createdCT.FieldLinks.Add($link)    
-        }
-    }
-
-    $ct.Update()
+    if($Global:WhatIf){
+        "Opening SpWeb: $($complexObject.WorkingUrl)."
+        "Getting CT: $($complexObject.Detailed.Parent.name)."
+        "Field(s) is of type: $($complexObject.type)"
+        "Matching following: $($complexObject.matchfield)" 
+    }else{
+        $spWeb = Get-SPWeb $complexObject.WorkingUrl
+        $ct = $spWeb.ContentTypes[$complexObject.Detailed.Parent.name]
     
-
+        if($complexObject.type -eq "wildcard"){
+            $fields = $spWeb.Fields | where {$_.Title -like $complexObject.matchfield}
+        }elseif($complexObject.type -eq "match"){
+            $fields = $spWeb.Fields | where {$_.Title -eq $complexObject.matchfield}
+        }
+        foreach ($field in $fields) {
+            $link = New-Object Microsoft.SharePoint.SPFieldLink $field
+            $createdCT.FieldLinks.Add($link)    
+        }
+        $ct.Update()
+    }
 }
