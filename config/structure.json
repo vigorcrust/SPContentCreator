@@ -1,0 +1,50 @@
+{
+    "sitecollection" : {
+        "url" : "http://portal.contoso.com",
+        "action" : "use",
+	    "website" : {
+            "url" : "",
+		    "action" : "useOrCreate",
+			"type" : "STS#0",
+		    "contenttype" : {
+                "name" : "CT_testing",			    
+                "desc" : "Content Type without metadata.",
+                "action" : "create",
+			    "type" : "Document",
+                "fields" : {
+                    "matchfield" : "something*",
+                    "type" : "wildcard"
+                },
+                "fields" : {
+                    "matchfield" : "exactTitle",
+                    "type" : "match"
+                }
+		    },
+			"list" : {
+				"name" : "TestLibrary",
+				"type" : "DocumentLibrary",
+				"action" : "create",
+				"item" : {
+					"title" : "Item1",
+					"file" : "datafile.bin"
+				}
+			},
+	        "website" : {
+                "url" : "/HR",
+                "name" : "Dolly1",
+                "website" : {
+                    "url" : "/Contracts",
+                    "name" : "Dolly2"
+                }
+            },          
+	        "website" : {
+                "url" : "/IT",
+                "name" : "Dolly3",
+                "website" : {
+                    "url" : "/Assets",
+                    "name" : "Dolly4"
+                }
+            }
+        }
+    }
+}

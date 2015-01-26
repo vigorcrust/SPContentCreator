@@ -17,7 +17,7 @@ try{
 # helper functions
 function import {
     param(
-        $Namespace = "system"
+        [String]$Namespace = "system"
     )
 
     $namespacePath = $(Join-Path $script:importFolderPath $($Namespace.Replace(".","\")))
@@ -29,9 +29,19 @@ function import {
 
         foreach ($scriptPath in $files.FullName){
             "import $scriptPath"
-            Import-Module $scriptPath
+            Import-Module $scriptPath -Force
         }
     }else{
         Write-Host ("Namespace '{0}' could not be loaded" -f $Namespace) -ForegroundColor Red
     }
+}
+
+function Invoke-Function{
+    param(
+        [String]$FunctionToCall,
+        $ObjectToPass
+    )
+    $getFunction = get-command $FunctionToCall -CommandType Function
+    $sb = $getFunction.ScriptBlock
+    Invoke-Command -ScriptBlock $sb -ArgumentList $ObjectToPass
 }
