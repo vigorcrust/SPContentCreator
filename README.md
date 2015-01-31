@@ -10,6 +10,10 @@ PowerShell script to create structures, set configurations and add contents to a
 		-error:	error handling and printing
 
 ## How does it work.
+### Configure the Structure
+The configuration is written in JSON.
+
+## The Code
 ### Import
 You can import Script-Modules with a helper function "import", which imports them and all functions defined within the namespace will be imported.
 Example:
